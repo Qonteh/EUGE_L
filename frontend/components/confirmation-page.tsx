@@ -1,6 +1,6 @@
 "use client"
 
-import { CheckCircle, Play, Calendar, Mail, Bell, ArrowRight, Clock } from "lucide-react"
+import { Check, Play, Calendar, Mail, Bell, ArrowRight, Clock, Video } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
 interface ConfirmationPageProps {
@@ -27,166 +27,153 @@ export function ConfirmationPage({ bookingData, onClose }: ConfirmationPageProps
   }
 
   return (
-    <div className="min-h-screen bg-background px-3 py-8 sm:px-4 sm:py-12">
+    <div className="min-h-screen bg-background px-4 py-8 sm:px-6 sm:py-12">
       <div className="mx-auto max-w-2xl">
         {/* Success Header */}
-        <div className="mb-6 text-center sm:mb-8">
-          <div className="mb-3 inline-flex h-12 w-12 items-center justify-center rounded-full bg-green-100 sm:mb-4 sm:h-16 sm:w-16">
-            <CheckCircle className="h-6 w-6 text-green-600 sm:h-8 sm:w-8" />
+        <div className="mb-8 text-center sm:mb-12">
+          <div className="mb-4 inline-flex h-16 w-16 items-center justify-center rounded-full bg-accent/10 sm:mb-6 sm:h-20 sm:w-20">
+            <Check className="h-8 w-8 text-accent sm:h-10 sm:w-10" strokeWidth={3} />
           </div>
-          <h1 className="mb-2 text-2xl font-bold text-foreground sm:text-3xl md:text-4xl">
-            <span className="text-primary">Congratulations!</span> Your Zoom Call Has Been Scheduled.
+          <h1 className="mb-3 text-2xl font-bold text-foreground sm:mb-4 sm:text-3xl md:text-4xl">
+            You&apos;re All Set!
           </h1>
+          <p className="text-muted-foreground sm:text-lg">
+            Your strategy session with Eugene L has been confirmed.
+          </p>
         </div>
 
-        {/* Steps Section */}
-        <div className="mb-6 rounded-xl bg-card p-4 shadow-lg shadow-primary/10 sm:mb-8 sm:rounded-2xl sm:p-6">
-          <h2 className="mb-3 text-base font-bold text-primary sm:mb-4 sm:text-xl">
-            Step 1: <span className="text-foreground">Watch this Video Then Follow The Steps to</span>{" "}
-            <span className="text-primary">Confirm Your Zoom Call</span>
-          </h2>
-
-          {/* Video Placeholder */}
-          <div className="mb-4 overflow-hidden rounded-xl bg-gradient-to-br from-slate-800 to-slate-900 sm:mb-6">
-            <div className="relative aspect-video">
-              <div className="flex h-full items-center justify-center">
-                <div className="text-center">
-                  <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-primary to-accent sm:mb-4 sm:h-24 sm:w-24">
-                    <span className="text-xl font-bold text-primary-foreground sm:text-3xl">EL</span>
-                  </div>
-                  <p className="text-sm font-medium text-white sm:text-lg">Eugene L</p>
-                </div>
+        {/* Booking Details Card */}
+        <div className="mb-8 rounded-2xl border border-border bg-card p-5 shadow-sm sm:mb-10 sm:p-6">
+          <h3 className="mb-4 text-lg font-semibold text-foreground sm:mb-5">Appointment Details</h3>
+          <div className="space-y-4">
+            <div className="flex items-center gap-4">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent/10 sm:h-12 sm:w-12">
+                <Calendar className="h-5 w-5 text-accent sm:h-6 sm:w-6" />
               </div>
-              <button
-                className="absolute inset-0 flex items-center justify-center bg-black/20 transition-all hover:bg-black/30"
-                aria-label="Play video"
-              >
-                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary shadow-lg shadow-primary/50 sm:h-16 sm:w-16">
-                  <Play className="ml-0.5 h-5 w-5 text-primary-foreground sm:ml-1 sm:h-6 sm:w-6" fill="currentColor" />
-                </div>
-              </button>
+              <div>
+                <p className="font-medium text-foreground">{formatDate(bookingData.date, bookingData.time)}</p>
+                <p className="text-sm text-muted-foreground">{bookingData.timezone}</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent/10 sm:h-12 sm:w-12">
+                <Clock className="h-5 w-5 text-accent sm:h-6 sm:w-6" />
+              </div>
+              <div>
+                <p className="font-medium text-foreground">1 Hour Strategy Session</p>
+                <p className="text-sm text-muted-foreground">with Eugene L</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent/10 sm:h-12 sm:w-12">
+                <Video className="h-5 w-5 text-accent sm:h-6 sm:w-6" />
+              </div>
+              <div>
+                <p className="font-medium text-foreground">Zoom Video Call</p>
+                <p className="text-sm text-muted-foreground">Link will be sent to your email</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-4">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent/10 sm:h-12 sm:w-12">
+                <Mail className="h-5 w-5 text-accent sm:h-6 sm:w-6" />
+              </div>
+              <div>
+                <p className="font-medium text-foreground">{bookingData.email}</p>
+                <p className="text-sm text-muted-foreground">Confirmation sent</p>
+              </div>
             </div>
           </div>
-
-          <p className="mb-3 text-center text-xs text-muted-foreground sm:mb-4 sm:text-sm">
-            To Respect Your Time and Ours, Please Follow The Steps Below:
-          </p>
-
-          {/* Important Notice */}
-          <div className="rounded-xl bg-secondary/50 p-3 sm:p-4">
-            <p className="text-xs text-foreground sm:text-sm">
-              <span className="font-bold">Important!</span> Make sure you add your booking to your calendar and set a
-              reminder. This ensures you don&apos;t miss your call with Eugene L.
-            </p>
-          </div>
         </div>
 
-        {/* Step 2 - Watch Training Video */}
-        <div className="mb-6 rounded-xl bg-card p-4 shadow-lg shadow-primary/10 sm:mb-8 sm:rounded-2xl sm:p-6">
-          <h2 className="mb-3 text-base font-bold text-primary sm:mb-4 sm:text-xl">
-            Step 2: <span className="text-foreground">Watch the</span>{" "}
-            <span className="text-primary">Traders Accelerator Method&trade;</span>{" "}
-            <span className="text-foreground">— The Private System Used By Eugene L</span>
-          </h2>
-          
-          <p className="mb-4 text-xs italic text-muted-foreground sm:mb-6 sm:text-sm">
-            Watch the free training revealing the system that helped 300+ traders go from inconsistent to profitable in 90 days.
+        {/* Watch Video Section */}
+        <div className="mb-8 rounded-2xl border border-border bg-card p-5 shadow-sm sm:mb-10 sm:p-6">
+          <h3 className="mb-2 text-lg font-semibold text-foreground sm:text-xl">
+            Prepare for Your Call
+          </h3>
+          <p className="mb-5 text-sm text-muted-foreground sm:mb-6 sm:text-base">
+            Watch this short video to get the most out of your session.
           </p>
-
-          {/* Video Thumbnail */}
-          <div className="relative aspect-video overflow-hidden rounded-xl bg-gradient-to-br from-slate-800 to-slate-900">
-            <div className="flex h-full items-center justify-center">
+          
+          <div className="relative aspect-video overflow-hidden rounded-xl bg-primary">
+            <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.02)_25%,rgba(255,255,255,0.02)_50%,transparent_50%,transparent_75%,rgba(255,255,255,0.02)_75%)] bg-[length:40px_40px]" />
+            <div className="relative flex h-full items-center justify-center">
               <div className="text-center">
-                <p className="text-2xl font-bold text-white sm:text-4xl">$120,000</p>
-                <p className="text-sm font-bold text-primary sm:text-lg">IN 30 DAYS</p>
+                <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-primary-foreground/10 backdrop-blur-sm sm:mb-4 sm:h-20 sm:w-20">
+                  <span className="text-xl font-bold text-primary-foreground sm:text-2xl">EL</span>
+                </div>
+                <p className="text-sm font-medium text-primary-foreground sm:text-base">What to Expect</p>
               </div>
             </div>
             <button
-              className="absolute inset-0 flex items-center justify-center bg-black/20 transition-all hover:bg-black/30"
-              aria-label="Play training video"
+              className="absolute inset-0 flex items-center justify-center transition-all"
+              aria-label="Play video"
             >
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary shadow-lg shadow-primary/50 sm:h-16 sm:w-16">
-                <Play className="ml-0.5 h-5 w-5 text-primary-foreground sm:ml-1 sm:h-6 sm:w-6" fill="currentColor" />
+              <div className="flex h-14 w-14 items-center justify-center rounded-full bg-primary-foreground shadow-lg transition-transform hover:scale-110 sm:h-16 sm:w-16">
+                <Play className="ml-1 h-6 w-6 text-primary sm:h-7 sm:w-7" fill="currentColor" />
               </div>
             </button>
           </div>
         </div>
 
-        {/* Booking Details Card */}
-        <div className="mb-6 rounded-xl bg-card p-4 shadow-lg shadow-primary/10 sm:mb-8 sm:rounded-2xl sm:p-6">
-          <h3 className="mb-3 text-base font-bold text-foreground sm:mb-4 sm:text-lg">Your Booking Details</h3>
-          <div className="space-y-2 text-xs sm:space-y-3 sm:text-sm">
-            <div className="flex items-center gap-2 sm:gap-3">
-              <Calendar className="h-4 w-4 text-primary sm:h-5 sm:w-5" />
-              <span className="text-foreground">{formatDate(bookingData.date, bookingData.time)}</span>
-            </div>
-            <div className="flex items-center gap-2 sm:gap-3">
-              <Clock className="h-4 w-4 text-primary sm:h-5 sm:w-5" />
-              <span className="text-foreground">1 hour call with Eugene L</span>
-            </div>
-            <div className="flex items-center gap-2 sm:gap-3">
-              <Mail className="h-4 w-4 text-primary sm:h-5 sm:w-5" />
-              <span className="text-foreground">{bookingData.email}</span>
-            </div>
+        {/* Action Steps */}
+        <div className="mb-8 sm:mb-10">
+          <h3 className="mb-4 text-lg font-semibold text-foreground sm:mb-5">Next Steps</h3>
+          <div className="space-y-3 sm:space-y-4">
+            {[
+              { icon: Calendar, text: "Add to your calendar", action: "Add to Calendar" },
+              { icon: Bell, text: "Set a reminder 30 minutes before", action: "Set Reminder" },
+              { icon: Mail, text: "Check your email for the Zoom link", action: "Check Email" },
+            ].map((step, index) => (
+              <div
+                key={index}
+                className="flex flex-col gap-3 rounded-xl border border-border bg-card p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-muted">
+                    <step.icon className="h-5 w-5 text-muted-foreground" />
+                  </div>
+                  <span className="font-medium text-foreground">{step.text}</span>
+                </div>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="h-10 w-full rounded-full border-2 text-sm font-medium hover:bg-muted sm:w-auto sm:px-5"
+                >
+                  {step.action}
+                </Button>
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* Special Bonus */}
-        <div className="mb-6 rounded-xl bg-primary p-4 text-center text-primary-foreground shadow-xl shadow-primary/30 sm:mb-8 sm:rounded-2xl sm:p-6">
-          <h2 className="mb-2 text-lg font-bold sm:mb-3 sm:text-xl md:text-2xl">
-            Attend your scheduled call to receive a special bonus.
-          </h2>
-          <p className="text-xs opacity-90 sm:text-sm md:text-base">
-            You will get a free $1,000 trading account. Ask your coach on the call to claim it.
-          </p>
-        </div>
-
-        {/* Action Steps */}
-        <div className="mb-6 space-y-3 sm:mb-8 sm:space-y-4">
-          <h3 className="text-base font-bold text-foreground sm:text-lg">Next Steps:</h3>
-          {[
-            { icon: Calendar, text: "Add to your calendar", action: "Add to Calendar" },
-            { icon: Bell, text: "Set a reminder 30 minutes before", action: "Set Reminder" },
-            { icon: Mail, text: "Check your email for confirmation", action: "Check Email" },
-          ].map((step, index) => (
-            <div
-              key={index}
-              className="flex flex-col gap-2 rounded-xl border border-border bg-card p-3 sm:flex-row sm:items-center sm:justify-between sm:p-4"
-            >
-              <div className="flex items-center gap-2 sm:gap-3">
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 sm:h-10 sm:w-10">
-                  <step.icon className="h-4 w-4 text-primary sm:h-5 sm:w-5" />
-                </div>
-                <span className="text-sm font-medium text-foreground sm:text-base">{step.text}</span>
-              </div>
-              <Button variant="outline" size="sm" className="h-8 w-full border-primary text-xs text-primary hover:bg-primary hover:text-primary-foreground sm:h-9 sm:w-auto sm:text-sm">
-                {step.action}
-              </Button>
-            </div>
-          ))}
-        </div>
-
         {/* What to Expect */}
-        <div className="mb-6 rounded-xl bg-gradient-to-br from-primary/10 to-accent/10 p-4 sm:mb-8 sm:rounded-2xl sm:p-6">
-          <h3 className="mb-3 text-base font-bold text-foreground sm:mb-4 sm:text-lg">What to Expect on Your Call:</h3>
-          <ul className="space-y-2 text-xs text-foreground sm:text-sm">
-            <li className="flex items-start gap-2">
-              <CheckCircle className="mt-0.5 h-3 w-3 shrink-0 text-primary sm:h-4 sm:w-4" />
-              <span>A personalized assessment of your trading experience</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <CheckCircle className="mt-0.5 h-3 w-3 shrink-0 text-primary sm:h-4 sm:w-4" />
-              <span>Clear roadmap to achieve your trading goals</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <CheckCircle className="mt-0.5 h-3 w-3 shrink-0 text-primary sm:h-4 sm:w-4" />
-              <span>Exclusive insights from Eugene L&apos;s proven system</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <CheckCircle className="mt-0.5 h-3 w-3 shrink-0 text-primary sm:h-4 sm:w-4" />
-              <span>No pressure - just valuable trading advice</span>
-            </li>
+        <div className="mb-8 rounded-2xl border border-accent/20 bg-accent/5 p-5 sm:mb-10 sm:p-6">
+          <h3 className="mb-4 text-lg font-semibold text-foreground">What to Expect on Your Call</h3>
+          <ul className="space-y-3">
+            {[
+              "A personalized assessment of your trading experience",
+              "Clear roadmap to achieve your trading goals",
+              "Exclusive insights from Eugene L's proven system",
+              "No pressure - just valuable trading advice",
+            ].map((item, index) => (
+              <li key={index} className="flex items-start gap-3">
+                <div className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-accent/20">
+                  <Check className="h-3 w-3 text-accent" strokeWidth={3} />
+                </div>
+                <span className="text-sm text-foreground sm:text-base">{item}</span>
+              </li>
+            ))}
           </ul>
+        </div>
+
+        {/* Special Bonus */}
+        <div className="mb-8 rounded-2xl bg-primary p-5 text-center text-primary-foreground sm:mb-10 sm:p-6">
+          <h2 className="mb-2 text-lg font-bold sm:text-xl">
+            Special Bonus for Attending
+          </h2>
+          <p className="text-sm opacity-90 sm:text-base">
+            Attend your call to receive a free $1,000 trading account. Ask Eugene on the call to claim it.
+          </p>
         </div>
 
         {/* Return Button */}
@@ -194,10 +181,10 @@ export function ConfirmationPage({ bookingData, onClose }: ConfirmationPageProps
           <Button
             onClick={onClose}
             size="lg"
-            className="h-11 w-full max-w-xs rounded-xl bg-primary px-6 text-base font-semibold text-primary-foreground shadow-lg shadow-primary/30 sm:h-14 sm:px-8 sm:text-lg"
+            className="h-14 w-full rounded-full bg-primary px-8 text-base font-semibold text-primary-foreground sm:h-16 sm:w-auto sm:text-lg"
           >
             Return to Home
-            <ArrowRight className="ml-2 h-4 w-4 sm:h-5 sm:w-5" />
+            <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
         </div>
       </div>

@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { X, ChevronLeft, ChevronRight } from "lucide-react"
+import { X, ChevronLeft, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
@@ -28,7 +28,7 @@ interface FormData {
 const questions = [
   {
     id: 1,
-    question: "What is your current trading experience?*",
+    question: "What is your current trading experience?",
     type: "choice",
     field: "experience",
     options: [
@@ -40,7 +40,7 @@ const questions = [
   },
   {
     id: 2,
-    question: "What is your #1 goal with trading right now?*",
+    question: "What is your #1 goal with trading right now?",
     subtitle: "Be specific - income targets, lifestyle changes, financial freedom, etc.",
     type: "text",
     field: "goal",
@@ -48,7 +48,7 @@ const questions = [
   },
   {
     id: 3,
-    question: "Are you ready to commit to a 90-day intensive program?*",
+    question: "Are you ready to commit to a 90-day intensive program?",
     type: "choice",
     field: "commitment",
     options: [
@@ -60,7 +60,8 @@ const questions = [
   },
   {
     id: 4,
-    question: "This program is designed for serious people ready to invest in their trading education and career. It's a hands-on, high-level program that delivers world-class results and requires a financial commitment to succeed.\n\nHow much are you able to invest in your trading education right now?*",
+    question: "How much are you able to invest in your trading education?",
+    subtitle: "This program is designed for serious individuals ready to invest in their success.",
     type: "choice",
     field: "investment",
     options: [
@@ -73,54 +74,54 @@ const questions = [
   },
   {
     id: 5,
-    question: "What is your current annual income?*",
+    question: "What is your current annual income?",
     type: "choice",
     field: "income",
     options: [
-      { label: "A", value: "Unemployed" },
-      { label: "B", value: "$10,000-$20,000" },
-      { label: "C", value: "$20,000-$40,000" },
-      { label: "D", value: "$50,000+" },
+      { label: "A", value: "Under $20,000" },
+      { label: "B", value: "$20,000-$40,000" },
+      { label: "C", value: "$40,000-$75,000" },
+      { label: "D", value: "$75,000+" },
       { label: "E", value: "Retired" },
     ],
   },
   {
     id: 6,
-    question: "What is your name?*",
+    question: "What is your name?",
     type: "name",
     field: "name",
   },
   {
     id: 7,
-    question: "What is your best email address?*",
+    question: "What is your email address?",
     type: "email",
     field: "email",
-    placeholder: "name@example.com",
+    placeholder: "you@example.com",
   },
   {
     id: 8,
-    question: "What is your best mobile number?*",
+    question: "What is your phone number?",
     type: "phone",
     field: "phone",
-    placeholder: "692 438 585",
+    placeholder: "123 456 7890",
   },
 ]
 
 const countryCodes = [
-  { code: "+1", flag: "🇺🇸", country: "US" },
-  { code: "+44", flag: "🇬🇧", country: "UK" },
-  { code: "+255", flag: "🇹🇿", country: "TZ" },
-  { code: "+254", flag: "🇰🇪", country: "KE" },
-  { code: "+234", flag: "🇳🇬", country: "NG" },
-  { code: "+27", flag: "🇿🇦", country: "ZA" },
-  { code: "+91", flag: "🇮🇳", country: "IN" },
-  { code: "+61", flag: "🇦🇺", country: "AU" },
-  { code: "+49", flag: "🇩🇪", country: "DE" },
-  { code: "+33", flag: "🇫🇷", country: "FR" },
-  { code: "+86", flag: "🇨🇳", country: "CN" },
-  { code: "+81", flag: "🇯🇵", country: "JP" },
-  { code: "+82", flag: "🇰🇷", country: "KR" },
-  { code: "+971", flag: "🇦🇪", country: "UAE" },
+  { code: "+1", flag: "US", country: "United States" },
+  { code: "+44", flag: "UK", country: "United Kingdom" },
+  { code: "+255", flag: "TZ", country: "Tanzania" },
+  { code: "+254", flag: "KE", country: "Kenya" },
+  { code: "+234", flag: "NG", country: "Nigeria" },
+  { code: "+27", flag: "ZA", country: "South Africa" },
+  { code: "+91", flag: "IN", country: "India" },
+  { code: "+61", flag: "AU", country: "Australia" },
+  { code: "+49", flag: "DE", country: "Germany" },
+  { code: "+33", flag: "FR", country: "France" },
+  { code: "+86", flag: "CN", country: "China" },
+  { code: "+81", flag: "JP", country: "Japan" },
+  { code: "+82", flag: "KR", country: "South Korea" },
+  { code: "+971", flag: "AE", country: "UAE" },
 ]
 
 export function QualificationForm({ onComplete, onDisqualified, onClose }: QualificationFormProps) {
@@ -135,7 +136,7 @@ export function QualificationForm({ onComplete, onDisqualified, onClose }: Quali
     lastName: "",
     email: "",
     phone: "",
-    countryCode: "+255",
+    countryCode: "+1",
   })
   const [selectedOption, setSelectedOption] = useState<string | null>(null)
 
@@ -191,103 +192,124 @@ export function QualificationForm({ onComplete, onDisqualified, onClose }: Quali
       {/* Progress Bar */}
       <div className="h-1 w-full bg-border">
         <div
-          className="h-full bg-primary transition-all duration-300"
+          className="h-full bg-accent transition-all duration-500 ease-out"
           style={{ width: `${progress}%` }}
         />
       </div>
 
       {/* Header */}
-      <div className="flex items-center justify-end px-3 py-2 sm:px-4 sm:py-3">
+      <div className="flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4">
+        <div className="flex items-center gap-3">
+          {currentStep > 0 && (
+            <button
+              onClick={handleBack}
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+              aria-label="Go back"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+          )}
+          <span className="text-sm font-medium text-muted-foreground">
+            {currentStep + 1} of {questions.length}
+          </span>
+        </div>
         <button
           onClick={onClose}
-          className="rounded-full p-1.5 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground sm:p-2"
+          className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
           aria-label="Close"
         >
-          <X className="h-5 w-5 sm:h-6 sm:w-6" />
+          <X className="h-5 w-5" />
         </button>
       </div>
 
       {/* Content */}
-      <div className="flex flex-1 flex-col px-4 pb-20 pt-4 sm:px-6 sm:pb-24 sm:pt-8 md:px-12">
+      <div className="flex flex-1 flex-col px-4 pb-28 pt-6 sm:px-6 sm:pb-32 sm:pt-10">
         <div className="mx-auto w-full max-w-lg">
-          {/* Question Number */}
-          <div className="mb-3 flex h-7 w-7 items-center justify-center rounded-lg bg-primary text-xs font-medium text-primary-foreground sm:mb-4 sm:h-8 sm:w-8 sm:text-sm">
+          {/* Question Number Badge */}
+          <div className="mb-4 inline-flex h-8 w-8 items-center justify-center rounded-full bg-accent text-sm font-semibold text-accent-foreground sm:h-10 sm:w-10 sm:text-base">
             {currentQuestion.id}
           </div>
 
           {/* Question */}
-          <h2 className="mb-2 whitespace-pre-line text-base font-semibold leading-relaxed text-foreground sm:text-xl md:text-2xl">
+          <h2 className="mb-2 text-xl font-bold leading-tight text-foreground sm:text-2xl md:text-3xl">
             {currentQuestion.question}
           </h2>
 
           {currentQuestion.subtitle && (
-            <p className="mb-4 text-xs text-muted-foreground sm:mb-6 sm:text-sm">{currentQuestion.subtitle}</p>
+            <p className="mb-6 text-sm text-muted-foreground sm:mb-8 sm:text-base">{currentQuestion.subtitle}</p>
           )}
 
           {/* Input based on type */}
-          <div className="mt-4 sm:mt-6">
+          <div className="mt-6 sm:mt-8">
             {currentQuestion.type === "choice" && (
-              <div className="space-y-2 sm:space-y-3">
+              <div className="space-y-3">
                 {currentQuestion.options?.map((option) => (
                   <button
                     key={option.value}
                     onClick={() => handleOptionSelect(option.value)}
                     className={cn(
-                      "flex w-full items-center gap-2 rounded-xl border-2 px-3 py-3 text-left transition-all sm:gap-3 sm:px-4 sm:py-4",
+                      "flex w-full items-center gap-3 rounded-xl border-2 px-4 py-4 text-left transition-all sm:gap-4 sm:px-5 sm:py-5",
                       selectedOption === option.value
-                        ? "border-primary bg-primary/5 text-primary"
-                        : "border-border bg-card text-foreground hover:border-primary/50"
+                        ? "border-accent bg-accent/5"
+                        : "border-border bg-card hover:border-accent/50"
                     )}
                   >
                     <span
                       className={cn(
-                        "flex h-6 w-6 shrink-0 items-center justify-center rounded-lg border-2 text-xs font-medium sm:h-8 sm:w-8 sm:text-sm",
+                        "flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-sm font-semibold transition-colors sm:h-10 sm:w-10 sm:text-base",
                         selectedOption === option.value
-                          ? "border-primary bg-primary text-primary-foreground"
-                          : "border-border text-muted-foreground"
+                          ? "bg-accent text-accent-foreground"
+                          : "bg-muted text-muted-foreground"
                       )}
                     >
                       {option.label}
                     </span>
-                    <span className="text-sm font-medium sm:text-base">{option.value}</span>
+                    <span className={cn(
+                      "text-sm font-medium sm:text-base",
+                      selectedOption === option.value ? "text-foreground" : "text-foreground"
+                    )}>
+                      {option.value}
+                    </span>
                   </button>
                 ))}
               </div>
             )}
 
             {currentQuestion.type === "text" && (
-              <Input
-                type="text"
-                placeholder={currentQuestion.placeholder}
-                value={formData[currentQuestion.field as keyof FormData] || ""}
-                onChange={(e) =>
-                  setFormData((prev) => ({
-                    ...prev,
-                    [currentQuestion.field]: e.target.value,
-                  }))
-                }
-                className="h-10 border-0 border-b-2 border-primary bg-transparent text-sm text-primary placeholder:text-primary/50 focus-visible:ring-0 sm:h-12 sm:text-lg"
-              />
+              <div className="space-y-2">
+                <Input
+                  type="text"
+                  placeholder={currentQuestion.placeholder}
+                  value={formData[currentQuestion.field as keyof FormData] || ""}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      [currentQuestion.field]: e.target.value,
+                    }))
+                  }
+                  className="h-14 rounded-xl border-2 border-border bg-card px-4 text-base text-foreground placeholder:text-muted-foreground focus:border-accent sm:h-16 sm:text-lg"
+                />
+              </div>
             )}
 
             {currentQuestion.type === "name" && (
-              <div className="space-y-4 sm:space-y-6">
+              <div className="space-y-4 sm:space-y-5">
                 <div>
-                  <label className="mb-1 block text-xs font-medium text-foreground sm:mb-2 sm:text-sm">
-                    First name*
+                  <label className="mb-2 block text-sm font-medium text-foreground sm:text-base">
+                    First name
                   </label>
                   <Input
                     type="text"
-                    placeholder="Jane"
+                    placeholder="John"
                     value={formData.firstName}
                     onChange={(e) =>
                       setFormData((prev) => ({ ...prev, firstName: e.target.value }))
                     }
-                    className="h-10 border-0 border-b-2 border-primary bg-transparent text-sm text-primary placeholder:text-primary/50 focus-visible:ring-0 sm:h-12 sm:text-lg"
+                    className="h-14 rounded-xl border-2 border-border bg-card px-4 text-base text-foreground placeholder:text-muted-foreground focus:border-accent sm:h-16 sm:text-lg"
                   />
                 </div>
                 <div>
-                  <label className="mb-1 block text-xs font-medium text-foreground sm:mb-2 sm:text-sm">
+                  <label className="mb-2 block text-sm font-medium text-foreground sm:text-base">
                     Last name
                   </label>
                   <Input
@@ -297,7 +319,7 @@ export function QualificationForm({ onComplete, onDisqualified, onClose }: Quali
                     onChange={(e) =>
                       setFormData((prev) => ({ ...prev, lastName: e.target.value }))
                     }
-                    className="h-10 border-0 border-b-2 border-primary bg-transparent text-sm text-primary placeholder:text-primary/50 focus-visible:ring-0 sm:h-12 sm:text-lg"
+                    className="h-14 rounded-xl border-2 border-border bg-card px-4 text-base text-foreground placeholder:text-muted-foreground focus:border-accent sm:h-16 sm:text-lg"
                   />
                 </div>
               </div>
@@ -311,18 +333,18 @@ export function QualificationForm({ onComplete, onDisqualified, onClose }: Quali
                 onChange={(e) =>
                   setFormData((prev) => ({ ...prev, email: e.target.value }))
                 }
-                className="h-10 border-0 border-b-2 border-primary bg-transparent text-sm text-primary placeholder:text-primary/50 focus-visible:ring-0 sm:h-12 sm:text-lg"
+                className="h-14 rounded-xl border-2 border-border bg-card px-4 text-base text-foreground placeholder:text-muted-foreground focus:border-accent sm:h-16 sm:text-lg"
               />
             )}
 
             {currentQuestion.type === "phone" && (
-              <div className="flex items-center gap-2 sm:gap-3">
+              <div className="flex gap-3">
                 <select
                   value={formData.countryCode}
                   onChange={(e) =>
                     setFormData((prev) => ({ ...prev, countryCode: e.target.value }))
                   }
-                  className="h-10 rounded-lg border-2 border-primary/30 bg-transparent px-2 text-sm focus:border-primary focus:outline-none sm:h-12 sm:px-3 sm:text-lg"
+                  className="h-14 rounded-xl border-2 border-border bg-card px-3 text-base text-foreground focus:border-accent focus:outline-none sm:h-16 sm:px-4 sm:text-lg"
                 >
                   {countryCodes.map((country) => (
                     <option key={country.code} value={country.code}>
@@ -337,7 +359,7 @@ export function QualificationForm({ onComplete, onDisqualified, onClose }: Quali
                   onChange={(e) =>
                     setFormData((prev) => ({ ...prev, phone: e.target.value }))
                   }
-                  className="h-10 flex-1 border-0 border-b-2 border-primary bg-transparent text-sm text-primary placeholder:text-primary/50 focus-visible:ring-0 sm:h-12 sm:text-lg"
+                  className="h-14 flex-1 rounded-xl border-2 border-border bg-card px-4 text-base text-foreground placeholder:text-muted-foreground focus:border-accent sm:h-16 sm:text-lg"
                 />
               </div>
             )}
@@ -346,25 +368,28 @@ export function QualificationForm({ onComplete, onDisqualified, onClose }: Quali
       </div>
 
       {/* Footer Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 flex items-center gap-2 bg-background px-4 py-3 sm:gap-3 sm:px-6 sm:py-4 md:px-12">
-        <Button
-          variant="outline"
-          size="lg"
-          onClick={handleBack}
-          disabled={currentStep === 0}
-          className="h-11 w-11 shrink-0 rounded-xl border-2 p-0 sm:h-14 sm:w-14"
-        >
-          <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
-        </Button>
-        <Button
-          size="lg"
-          onClick={handleNext}
-          disabled={isNextDisabled()}
-          className="h-11 flex-1 rounded-xl bg-primary text-base font-semibold text-primary-foreground shadow-lg shadow-primary/30 disabled:opacity-50 sm:h-14 sm:text-lg"
-        >
-          {currentStep === questions.length - 1 ? "Submit" : "OK"}
-          {currentStep < questions.length - 1 && <ChevronRight className="ml-1 h-4 w-4 sm:ml-2 sm:h-5 sm:w-5" />}
-        </Button>
+      <div className="fixed bottom-0 left-0 right-0 border-t border-border bg-background px-4 py-4 sm:px-6 sm:py-5">
+        <div className="mx-auto flex max-w-lg gap-3">
+          {currentStep > 0 && (
+            <Button
+              variant="outline"
+              size="lg"
+              onClick={handleBack}
+              className="h-14 w-14 shrink-0 rounded-full border-2 p-0 sm:h-16 sm:w-16"
+            >
+              <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
+            </Button>
+          )}
+          <Button
+            size="lg"
+            onClick={handleNext}
+            disabled={isNextDisabled()}
+            className="h-14 flex-1 rounded-full bg-primary text-base font-semibold text-primary-foreground disabled:opacity-50 sm:h-16 sm:text-lg"
+          >
+            {currentStep === questions.length - 1 ? "Submit Application" : "Continue"}
+            <ArrowRight className="ml-2 h-5 w-5" />
+          </Button>
+        </div>
       </div>
     </div>
   )

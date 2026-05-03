@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { ChevronLeft, ChevronRight, X, Clock, Calendar, Globe } from "lucide-react"
+import { ChevronLeft, ChevronRight, X, Clock, Calendar, Globe, ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
@@ -41,7 +41,7 @@ export function BookingCalendar({ onComplete, onClose, formData }: BookingCalend
   const [currentMonth, setCurrentMonth] = useState(new Date())
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
   const [selectedTime, setSelectedTime] = useState<string | null>(null)
-  const [timezone, setTimezone] = useState("EAT")
+  const [timezone, setTimezone] = useState("EST")
   const [bookingDetails, setBookingDetails] = useState({
     name: `${formData.firstName} ${formData.lastName}`.trim() || "",
     email: formData.email || "",
@@ -57,17 +57,14 @@ export function BookingCalendar({ onComplete, onClose, formData }: BookingCalend
     const daysInMonth = lastDay.getDate()
     const startingDay = firstDay.getDay()
 
-    // Adjust for Monday start (0 = Monday, 6 = Sunday)
     const adjustedStartingDay = startingDay === 0 ? 6 : startingDay - 1
 
     const days: (number | null)[] = []
 
-    // Add empty slots for days before the first day of the month
     for (let i = 0; i < adjustedStartingDay; i++) {
       days.push(null)
     }
 
-    // Add the days of the month
     for (let i = 1; i <= daysInMonth; i++) {
       days.push(i)
     }
@@ -80,7 +77,6 @@ export function BookingCalendar({ onComplete, onClose, formData }: BookingCalend
     const today = new Date()
     today.setHours(0, 0, 0, 0)
 
-    // Only future dates, weekdays only
     const dayOfWeek = date.getDay()
     return date >= today && dayOfWeek !== 0 && dayOfWeek !== 6
   }
@@ -145,60 +141,70 @@ export function BookingCalendar({ onComplete, onClose, formData }: BookingCalend
   ]
 
   const currentTimezone = timezones.find((tz) => tz.value === timezone)
+  const progressWidth = step === "calendar" ? "33%" : step === "time" ? "66%" : "100%"
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col bg-background">
       {/* Progress Bar */}
       <div className="h-1 w-full bg-border">
         <div
-          className="h-full bg-primary transition-all duration-300"
-          style={{ width: step === "calendar" ? "33%" : step === "time" ? "66%" : "100%" }}
+          className="h-full bg-accent transition-all duration-500 ease-out"
+          style={{ width: progressWidth }}
         />
       </div>
 
       {/* Header */}
-      <div className="flex items-center justify-between px-3 py-2 sm:px-4 sm:py-3">
-        {step !== "calendar" && (
-          <button
-            onClick={handleBack}
-            className="flex h-8 w-8 items-center justify-center rounded-full border-2 border-primary text-primary transition-colors hover:bg-primary hover:text-primary-foreground sm:h-10 sm:w-10"
-            aria-label="Go back"
-          >
-            <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
-          </button>
-        )}
-        <div className="flex-1" />
+      <div className="flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4">
+        <div className="flex items-center gap-3">
+          {step !== "calendar" && (
+            <button
+              onClick={handleBack}
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+              aria-label="Go back"
+            >
+              <ChevronLeft className="h-5 w-5" />
+            </button>
+          )}
+          <span className="text-sm font-medium text-muted-foreground">
+            {step === "calendar" ? "Select Date" : step === "time" ? "Select Time" : "Your Details"}
+          </span>
+        </div>
         <button
           onClick={onClose}
-          className="rounded-full p-1.5 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground sm:p-2"
+          className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
           aria-label="Close"
         >
-          <X className="h-5 w-5 sm:h-6 sm:w-6" />
+          <X className="h-5 w-5" />
         </button>
       </div>
 
       {/* Content */}
-      <div className="flex-1 overflow-auto px-3 pb-20 sm:px-4 sm:pb-24">
+      <div className="flex-1 overflow-auto px-4 pb-28 sm:px-6 sm:pb-32">
         {step === "calendar" && (
-          <div className="mx-auto max-w-md">
-            <h2 className="mb-4 text-center text-xl font-bold text-foreground sm:mb-6 sm:text-2xl">
-              Select a Day
-            </h2>
+          <div className="mx-auto max-w-md pt-6 sm:pt-10">
+            <div className="mb-6 text-center sm:mb-8">
+              <h2 className="mb-2 text-xl font-bold text-foreground sm:text-2xl">
+                Schedule Your Call
+              </h2>
+              <p className="text-sm text-muted-foreground sm:text-base">
+                Choose a date for your strategy session with Eugene L
+              </p>
+            </div>
 
             {/* Month Navigation */}
-            <div className="mb-4 flex items-center justify-center gap-2 sm:mb-6 sm:gap-4">
+            <div className="mb-6 flex items-center justify-center gap-4 sm:mb-8">
               <button
                 onClick={() =>
                   setCurrentMonth(
                     new Date(currentMonth.getFullYear(), currentMonth.getMonth() - 1, 1)
                   )
                 }
-                className="rounded-full p-1.5 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground sm:p-2"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                 aria-label="Previous month"
               >
-                <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
+                <ChevronLeft className="h-5 w-5" />
               </button>
-              <span className="min-w-28 text-center text-base font-semibold text-foreground sm:min-w-32 sm:text-lg">
+              <span className="min-w-36 text-center text-base font-semibold text-foreground sm:text-lg">
                 {monthNames[currentMonth.getMonth()]} {currentMonth.getFullYear()}
               </span>
               <button
@@ -207,60 +213,59 @@ export function BookingCalendar({ onComplete, onClose, formData }: BookingCalend
                     new Date(currentMonth.getFullYear(), currentMonth.getMonth() + 1, 1)
                   )
                 }
-                className="rounded-full p-1.5 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground sm:p-2"
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-border bg-card text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
                 aria-label="Next month"
               >
-                <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
+                <ChevronRight className="h-5 w-5" />
               </button>
             </div>
 
             {/* Calendar Grid */}
-            <div className="mb-4 sm:mb-6">
+            <div className="mb-6 rounded-2xl border border-border bg-card p-4 sm:p-5">
               {/* Day Headers */}
-              <div className="mb-1 grid grid-cols-7 gap-0.5 text-center text-[10px] font-medium text-muted-foreground sm:mb-2 sm:gap-1 sm:text-xs">
-                {["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"].map((day) => (
-                  <div key={day} className="py-1 sm:py-2">
+              <div className="mb-2 grid grid-cols-7 gap-1 text-center text-xs font-medium text-muted-foreground sm:text-sm">
+                {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => (
+                  <div key={day} className="py-2">
                     {day}
                   </div>
                 ))}
               </div>
 
               {/* Day Grid */}
-              <div className="grid grid-cols-7 gap-0.5 sm:gap-1">
+              <div className="grid grid-cols-7 gap-1">
                 {getDaysInMonth(currentMonth).map((day, index) => (
                   <button
                     key={index}
                     onClick={() => day && handleDateSelect(day)}
                     disabled={!day || !isDateAvailable(day)}
                     className={cn(
-                      "flex h-9 w-full items-center justify-center rounded-lg text-xs font-medium transition-all sm:h-10 sm:text-sm",
+                      "flex h-10 w-full items-center justify-center rounded-lg text-sm font-medium transition-all sm:h-11 sm:text-base",
                       !day && "invisible",
                       day && isDateAvailable(day)
-                        ? "text-foreground hover:bg-primary hover:text-primary-foreground"
-                        : "cursor-not-allowed text-muted-foreground/50",
-                      day && isToday(day) && "relative",
+                        ? "text-foreground hover:bg-accent hover:text-accent-foreground"
+                        : "cursor-not-allowed text-muted-foreground/40",
+                      day && isToday(day) && "ring-2 ring-accent ring-offset-2 ring-offset-card",
                       selectedDate?.getDate() === day &&
                         selectedDate?.getMonth() === currentMonth.getMonth() &&
-                        "bg-primary text-primary-foreground"
+                        "bg-accent text-accent-foreground"
                     )}
                   >
                     {day}
-                    {day && isToday(day) && (
-                      <span className="absolute bottom-0.5 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-primary sm:bottom-1" />
-                    )}
                   </button>
                 ))}
               </div>
             </div>
 
             {/* Timezone */}
-            <div className="flex flex-wrap items-center gap-2 text-muted-foreground">
-              <Globe className="h-3 w-3 sm:h-4 sm:w-4" />
-              <span className="text-xs font-medium sm:text-sm">Time zone</span>
+            <div className="flex items-center justify-between rounded-xl border border-border bg-card p-4">
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <Globe className="h-4 w-4" />
+                <span className="text-sm font-medium">Time zone</span>
+              </div>
               <select
                 value={timezone}
                 onChange={(e) => setTimezone(e.target.value)}
-                className="ml-auto rounded-lg border border-border bg-transparent px-2 py-1 text-xs text-foreground focus:border-primary focus:outline-none sm:text-sm"
+                className="rounded-lg border border-border bg-background px-3 py-2 text-sm text-foreground focus:border-accent focus:outline-none"
               >
                 {timezones.map((tz) => (
                   <option key={tz.value} value={tz.value}>
@@ -273,57 +278,52 @@ export function BookingCalendar({ onComplete, onClose, formData }: BookingCalend
         )}
 
         {step === "time" && selectedDate && (
-          <div className="mx-auto max-w-md">
-            {/* Selected Date Header */}
-            <div className="mb-4 sm:mb-6">
-              <h3 className="text-lg font-bold text-foreground sm:text-xl">
-                {selectedDate.toLocaleDateString("en-US", { weekday: "long" })}
-              </h3>
-              <p className="text-sm text-muted-foreground sm:text-base">
-                {selectedDate.toLocaleDateString("en-US", {
-                  month: "long",
-                  day: "numeric",
-                  year: "numeric",
-                })}
-              </p>
+          <div className="mx-auto max-w-md pt-6 sm:pt-10">
+            {/* Selected Date */}
+            <div className="mb-6 rounded-xl border border-border bg-card p-4 sm:mb-8 sm:p-5">
+              <div className="flex items-center gap-3">
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-accent/10 sm:h-12 sm:w-12">
+                  <Calendar className="h-5 w-5 text-accent sm:h-6 sm:w-6" />
+                </div>
+                <div>
+                  <p className="font-semibold text-foreground">
+                    {selectedDate.toLocaleDateString("en-US", { weekday: "long" })}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    {selectedDate.toLocaleDateString("en-US", {
+                      month: "long",
+                      day: "numeric",
+                      year: "numeric",
+                    })}
+                  </p>
+                </div>
+              </div>
             </div>
-
-            {/* Timezone */}
-            <div className="mb-4 flex items-center gap-2 text-muted-foreground sm:mb-6">
-              <Globe className="h-3 w-3 sm:h-4 sm:w-4" />
-              <span className="text-xs sm:text-sm">
-                {currentTimezone?.label} ({currentTimezone?.offset})
-              </span>
-            </div>
-
-            <hr className="mb-4 border-border sm:mb-6" />
 
             {/* Time Selection */}
-            <h4 className="mb-2 text-center text-lg font-bold text-foreground sm:text-xl">
-              Select a Time
-            </h4>
-            <p className="mb-4 text-center text-xs text-muted-foreground sm:mb-6 sm:text-sm">
-              Duration: 1 hr
-            </p>
+            <div className="mb-4 text-center sm:mb-6">
+              <h3 className="mb-1 text-lg font-bold text-foreground sm:text-xl">
+                Select a Time
+              </h3>
+              <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+                <Clock className="h-4 w-4" />
+                <span>Duration: 1 hour</span>
+              </div>
+            </div>
 
-            <div className="grid grid-cols-2 gap-2 sm:grid-cols-1 sm:gap-3">
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
               {timeSlots.map((time) => (
                 <button
                   key={time}
                   onClick={() => handleTimeSelect(time)}
                   className={cn(
-                    "flex w-full items-center justify-center gap-2 rounded-xl border-2 px-3 py-3 text-sm font-medium transition-all sm:gap-3 sm:px-4 sm:py-4 sm:text-base",
+                    "flex items-center justify-center rounded-xl border-2 px-4 py-4 text-base font-medium transition-all sm:py-5",
                     selectedTime === time
-                      ? "border-primary bg-primary/10 text-primary"
-                      : "border-border text-primary hover:border-primary/50"
+                      ? "border-accent bg-accent/5 text-accent"
+                      : "border-border bg-card text-foreground hover:border-accent/50"
                   )}
                 >
                   {time}
-                  {selectedTime === time && (
-                    <span className="ml-auto rounded-lg bg-primary px-2 py-0.5 text-xs text-primary-foreground sm:px-4 sm:py-1 sm:text-sm">
-                      Next
-                    </span>
-                  )}
                 </button>
               ))}
             </div>
@@ -331,39 +331,35 @@ export function BookingCalendar({ onComplete, onClose, formData }: BookingCalend
         )}
 
         {step === "details" && selectedDate && selectedTime && (
-          <div className="mx-auto max-w-md">
+          <div className="mx-auto max-w-md pt-6 sm:pt-10">
             {/* Booking Summary */}
-            <div className="mb-4 sm:mb-6">
-              <h2 className="mb-3 text-lg font-bold text-foreground sm:mb-4 sm:text-xl">
-                The Accelerator Assessment | Eugene L
-              </h2>
-              <div className="space-y-1.5 text-xs text-muted-foreground sm:space-y-2 sm:text-sm">
-                <div className="flex items-center gap-2">
-                  <Clock className="h-3 w-3 sm:h-4 sm:w-4" />
-                  <span>1 hr</span>
+            <div className="mb-6 rounded-xl border border-border bg-card p-4 sm:mb-8 sm:p-5">
+              <h3 className="mb-4 font-semibold text-foreground">Your Appointment</h3>
+              <div className="space-y-3 text-sm">
+                <div className="flex items-center gap-3">
+                  <Clock className="h-4 w-4 text-accent" />
+                  <span className="text-foreground">1 hour strategy session</span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Calendar className="h-3 w-3 sm:h-4 sm:w-4" />
-                  <span>
+                <div className="flex items-center gap-3">
+                  <Calendar className="h-4 w-4 text-accent" />
+                  <span className="text-foreground">
                     {selectedTime} - {formatDate(selectedDate)}
                   </span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <Globe className="h-3 w-3 sm:h-4 sm:w-4" />
-                  <span>{currentTimezone?.label}</span>
+                <div className="flex items-center gap-3">
+                  <Globe className="h-4 w-4 text-accent" />
+                  <span className="text-foreground">{currentTimezone?.label}</span>
                 </div>
               </div>
             </div>
 
-            <hr className="mb-4 border-border sm:mb-6" />
-
             {/* Details Form */}
-            <h3 className="mb-3 text-base font-bold text-foreground sm:mb-4 sm:text-lg">Enter Details</h3>
+            <h3 className="mb-4 text-lg font-bold text-foreground sm:text-xl">Confirm Your Details</h3>
 
-            <div className="space-y-3 sm:space-y-4">
+            <div className="space-y-4 sm:space-y-5">
               <div>
-                <label className="mb-1 block text-xs font-medium text-foreground sm:text-sm">
-                  Name *
+                <label className="mb-2 block text-sm font-medium text-foreground">
+                  Full Name
                 </label>
                 <Input
                   type="text"
@@ -371,13 +367,13 @@ export function BookingCalendar({ onComplete, onClose, formData }: BookingCalend
                   onChange={(e) =>
                     setBookingDetails((prev) => ({ ...prev, name: e.target.value }))
                   }
-                  className="h-10 border-2 border-border bg-card text-sm sm:h-12 sm:text-base"
+                  className="h-14 rounded-xl border-2 border-border bg-card px-4 text-base text-foreground focus:border-accent"
                 />
               </div>
 
               <div>
-                <label className="mb-1 block text-xs font-medium text-foreground sm:text-sm">
-                  Email *
+                <label className="mb-2 block text-sm font-medium text-foreground">
+                  Email Address
                 </label>
                 <Input
                   type="email"
@@ -385,27 +381,13 @@ export function BookingCalendar({ onComplete, onClose, formData }: BookingCalend
                   onChange={(e) =>
                     setBookingDetails((prev) => ({ ...prev, email: e.target.value }))
                   }
-                  className="h-10 border-2 border-border bg-card text-sm sm:h-12 sm:text-base"
+                  className="h-14 rounded-xl border-2 border-border bg-card px-4 text-base text-foreground focus:border-accent"
                 />
               </div>
 
               <div>
-                <label className="mb-1 block text-xs font-medium text-foreground sm:text-sm">
-                  Please share anything that will help prepare for our meeting.
-                </label>
-                <textarea
-                  value={bookingDetails.message}
-                  onChange={(e) =>
-                    setBookingDetails((prev) => ({ ...prev, message: e.target.value }))
-                  }
-                  rows={3}
-                  className="w-full rounded-lg border-2 border-border bg-card px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none sm:text-base"
-                />
-              </div>
-
-              <div>
-                <label className="mb-1 block text-xs font-medium text-foreground sm:text-sm">
-                  Send text messages to
+                <label className="mb-2 block text-sm font-medium text-foreground">
+                  Phone Number (for reminders)
                 </label>
                 <Input
                   type="tel"
@@ -413,19 +395,34 @@ export function BookingCalendar({ onComplete, onClose, formData }: BookingCalend
                   onChange={(e) =>
                     setBookingDetails((prev) => ({ ...prev, phone: e.target.value }))
                   }
-                  placeholder="+255 692 438 585"
-                  className="h-10 border-2 border-primary bg-card text-sm sm:h-12 sm:text-base"
+                  placeholder="+1 234 567 8900"
+                  className="h-14 rounded-xl border-2 border-border bg-card px-4 text-base text-foreground placeholder:text-muted-foreground focus:border-accent"
                 />
               </div>
 
-              <p className="text-[10px] text-muted-foreground sm:text-xs">
-                By proceeding, you confirm that you have read and agree to{" "}
-                <a href="#" className="text-primary hover:underline">
-                  Terms
+              <div>
+                <label className="mb-2 block text-sm font-medium text-foreground">
+                  Anything you&apos;d like us to know? (optional)
+                </label>
+                <textarea
+                  value={bookingDetails.message}
+                  onChange={(e) =>
+                    setBookingDetails((prev) => ({ ...prev, message: e.target.value }))
+                  }
+                  rows={3}
+                  className="w-full rounded-xl border-2 border-border bg-card px-4 py-3 text-base text-foreground placeholder:text-muted-foreground focus:border-accent focus:outline-none"
+                  placeholder="Share any context that would help prepare for our call..."
+                />
+              </div>
+
+              <p className="text-xs text-muted-foreground">
+                By scheduling, you agree to our{" "}
+                <a href="#" className="text-accent hover:underline">
+                  Terms of Service
                 </a>{" "}
                 and{" "}
-                <a href="#" className="text-primary hover:underline">
-                  Privacy Notice
+                <a href="#" className="text-accent hover:underline">
+                  Privacy Policy
                 </a>
                 .
               </p>
@@ -436,23 +433,26 @@ export function BookingCalendar({ onComplete, onClose, formData }: BookingCalend
 
       {/* Footer */}
       {(step === "time" || step === "details") && (
-        <div className="fixed bottom-0 left-0 right-0 flex items-center gap-2 bg-background px-3 py-3 sm:gap-3 sm:px-6 sm:py-4">
-          <Button
-            variant="outline"
-            size="lg"
-            onClick={handleBack}
-            className="h-11 w-11 shrink-0 rounded-xl border-2 p-0 sm:h-14 sm:w-14"
-          >
-            <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
-          </Button>
-          <Button
-            size="lg"
-            onClick={handleNext}
-            disabled={step === "time" ? !selectedTime : !bookingDetails.name || !bookingDetails.email}
-            className="h-11 flex-1 rounded-xl bg-primary text-base font-semibold text-primary-foreground shadow-lg shadow-primary/30 disabled:opacity-50 sm:h-14 sm:text-lg"
-          >
-            {step === "details" ? "Schedule Event" : "Next"}
-          </Button>
+        <div className="fixed bottom-0 left-0 right-0 border-t border-border bg-background px-4 py-4 sm:px-6 sm:py-5">
+          <div className="mx-auto flex max-w-md gap-3">
+            <Button
+              variant="outline"
+              size="lg"
+              onClick={handleBack}
+              className="h-14 w-14 shrink-0 rounded-full border-2 p-0 sm:h-16 sm:w-16"
+            >
+              <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
+            </Button>
+            <Button
+              size="lg"
+              onClick={handleNext}
+              disabled={step === "time" ? !selectedTime : !bookingDetails.name || !bookingDetails.email}
+              className="h-14 flex-1 rounded-full bg-primary text-base font-semibold text-primary-foreground disabled:opacity-50 sm:h-16 sm:text-lg"
+            >
+              {step === "details" ? "Confirm Booking" : "Continue"}
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+          </div>
         </div>
       )}
     </div>
