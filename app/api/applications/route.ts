@@ -1,1 +1,1 @@
-export { POST, GET } from "@/backend/api/applications/route"
+export { GET, POST, PATCH } from "@/backend/api/applications/route"
