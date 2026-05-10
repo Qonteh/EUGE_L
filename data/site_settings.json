@@ -1,0 +1,23 @@
+{
+  "mentorName": "Eugene",
+  "mentorTitle": "Professional Trader",
+  "programName": "EUGE Trading Academy",
+  "contactEmail": "eugene@example.com",
+  "heroHeadline": "Master Trading in 90 Days",
+  "heroSubheadline": "Learn proven strategies from a professional trader",
+  "rating": "4.9",
+  "reviewCount": "1200",
+  "primaryColor": "#3b82f6",
+  "accentColor": "#8b5cf6",
+  "callDuration": "30",
+  "bufferTime": "0",
+  "defaultTimezone": "EAT",
+  "startTime": "09:00",
+  "endTime": "17:00",
+  "availableDays": ["mon", "tue", "wed", "thu", "fri"],
+  "emailNotifications": true,
+  "smsNotifications": false,
+  "reminderHours": "1",
+  "minBudget": "$1,000-$2,999",
+  "requireCommitment": true
+}

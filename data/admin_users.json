@@ -1,0 +1,20 @@
+[
+  {
+    "id": "f2863979-4559-48b5-9063-6fe8163b1260",
+    "email": "eugene@gmail.com",
+    "password_hash": "2d1b4e7371d5ff00a88cb9a1711aa5d3:44403b0e04681f4c13fef721743b32c86c72e1da3d1efa5a45699574b4fb87bdd2c339c2930fcdaa90376ff07da196ad27663a411decd8f721f881cf56c08aa5",
+    "name": "Eugene L",
+    "role": "admin",
+    "is_active": true,
+    "created_at": "2026-05-05T18:11:50.959Z"
+  },
+  {
+    "id": "e66b64a1-3a99-475a-ac67-39fd4ffa74ec",
+    "email": "abdulyusuph051@gmail.com",
+    "password_hash": "a144fb79012212fa0c27aa36e44075e2:2fdd3cf4b77833b8577e6b35f1ff20f2d957413bba2a06cfcec6b432efa0b62761906d916fae457b28e1de7d75b274a76941b95729cde77cf64df01dbe04725e",
+    "name": "Abdulyusuph",
+    "role": "admin",
+    "is_active": true,
+    "created_at": "2026-05-05T18:11:50.999Z"
+  }
+]

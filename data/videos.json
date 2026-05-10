@@ -1,0 +1,40 @@
+[
+  {
+    "id": "a88d8702-c9c6-482d-ae92-f3df61dad06e",
+    "title": "dfg",
+    "description": "dfgh",
+    "video_url": "/uploads/videos/20800695-3578-4092-8357-92556f7dbdc9.mp4",
+    "thumbnail_url": null,
+    "category": "training",
+    "tags": [],
+    "is_free": false,
+    "access_level": "enrolled",
+    "is_active": true,
+    "view_count": 0
+  },
+  {
+    "id": "8316c956-870d-448e-9420-7e7251a46ed5",
+    "title": "bbvb",
+    "description": "nbcxbn",
+    "video_url": "http://localhost:3000/admin/videos",
+    "category": "training",
+    "tags": [],
+    "is_free": false,
+    "access_level": "enrolled",
+    "is_active": true,
+    "view_count": 0
+  },
+  {
+    "id": "5c1a6d4e-cd5b-456f-b683-b95eaa6f567a",
+    "title": "asdfghj",
+    "description": "dfgh",
+    "video_url": "/uploads/videos/160027be-7da9-43b0-8401-f60fa866fe18.mp4",
+    "thumbnail_url": null,
+    "category": "training",
+    "tags": [],
+    "is_free": false,
+    "access_level": "enrolled",
+    "is_active": true,
+    "view_count": 0
+  }
+]

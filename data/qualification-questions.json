@@ -1,0 +1,99 @@
+[
+  {
+    "id": "95d03bdc-4adc-4433-9f65-92886f8f630d",
+    "text": "What is your trading experience?",
+    "type": "select",
+    "options": [
+      "Beginner",
+      "Intermediate",
+      "Advanced"
+    ],
+    "required": true,
+    "isDisqualifying": false,
+    "order": 1
+  },
+  {
+    "id": "3b204a65-fd0c-45b8-857b-e55345bfff4b",
+    "text": "What is your biggest goal with trading right now?",
+    "type": "text",
+    "options": [
+      ""
+    ],
+    "placeholder": "Be specific like income targets, lifestyle changes, financial freedom, etc.",
+    "required": true,
+    "isDisqualifying": false,
+    "order": 2
+  },
+  {
+    "id": "bd882605-5b73-4a95-9b53-fe3b915da71b",
+    "text": "what's the biggest challenge that's stopped you from achieving those goals so far?",
+    "type": "text",
+    "options": [
+      ""
+    ],
+    "required": true,
+    "isDisqualifying": false,
+    "order": 3
+  },
+  {
+    "id": "3db4eae9-4895-4ed2-9668-fab0d7e9da75",
+    "text": "This program is designed for serious people ready to invest in their trading education and career. it's a hand-on, high-level program that delivers world-class results and requires a financial commitment to succeed. How muchare you able to invest in your trading education right now? ",
+    "type": "select",
+    "options": [
+      "$0-999",
+      "$1000-2999",
+      "$3500-4999"
+    ],
+    "required": true,
+    "isDisqualifying": false,
+    "order": 4
+  },
+  {
+    "id": "f70139e2-d15c-4cad-b89f-822281c135a9",
+    "text": "What is your current annual income?",
+    "type": "select",
+    "options": [
+      "Unemployed",
+      "$10000-20000",
+      "$20000-40000",
+      "$50000+",
+      "Retired"
+    ],
+    "required": true,
+    "isDisqualifying": false,
+    "order": 5
+  },
+  {
+    "id": "aef4242c-a856-4fc1-b564-ecb9dff99529",
+    "text": "What is your name?",
+    "type": "text",
+    "options": [
+      ""
+    ],
+    "required": true,
+    "isDisqualifying": false,
+    "order": 6
+  },
+  {
+    "id": "4081d00e-21df-4446-8c2f-24e9746f1fcf",
+    "text": "What is your best Email address?",
+    "type": "email",
+    "options": [
+      ""
+    ],
+    "required": true,
+    "isDisqualifying": false,
+    "order": 7
+  },
+  {
+    "id": "8fb335a3-d05c-4f50-9e77-60df985a4c96",
+    "text": "What is your best mobile number?",
+    "type": "phone",
+    "options": [
+      ""
+    ],
+    "required": true,
+    "isDisqualifying": false,
+    "order": 8
+  }
+]
